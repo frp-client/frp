@@ -25,10 +25,11 @@ type Request struct {
 }
 
 type Response struct {
-	Reject       bool        `json:"reject"`
-	RejectReason string      `json:"reject_reason"`
-	Unchange     bool        `json:"unchange"`
-	Content      interface{} `json:"content"`
+	Reject        bool        `json:"reject"`
+	RejectReason  string      `json:"reject_reason"`
+	Unchange      bool        `json:"unchange"`
+	Content       interface{} `json:"content"`
+	ChangePartial bool        `json:"change_partial"`
 }
 
 type LoginContent struct {

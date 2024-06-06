@@ -126,11 +126,66 @@ func (m *Manager) NewProxy(content *NewProxyContent) (*NewProxyContent, error) {
 		if res.Reject {
 			return nil, fmt.Errorf("%s", res.RejectReason)
 		}
-		if !res.Unchange {
+		// 局部变更
+		if !res.Unchange && res.ChangePartial {
+			content = m.ChangePartialConfig(content, retContent.(*NewProxyContent))
+		} else if !res.Unchange {
 			content = retContent.(*NewProxyContent)
 		}
 	}
 	return content, nil
+}
+
+func (m *Manager) ChangePartialConfig(contentOld *NewProxyContent, contentNew *NewProxyContent) *NewProxyContent {
+	if len(contentNew.ProxyName) > 0 {
+		contentOld.ProxyName = contentNew.ProxyName
+	}
+	if len(contentNew.BandwidthLimit) > 0 {
+		contentOld.BandwidthLimit = contentNew.BandwidthLimit
+	}
+	if len(contentNew.BandwidthLimitMode) > 0 {
+		contentOld.BandwidthLimitMode = contentNew.BandwidthLimitMode
+	}
+	if contentNew.UseEncryption {
+		contentOld.UseEncryption = contentNew.UseEncryption
+	}
+	if contentNew.UseCompression {
+		contentOld.UseCompression = contentNew.UseCompression
+	}
+	if len(contentNew.Group) > 0 {
+		contentOld.Group = contentNew.Group
+	}
+	if len(contentNew.GroupKey) > 0 {
+		contentOld.GroupKey = contentNew.GroupKey
+	}
+	if contentNew.RemotePort > 0 {
+		contentOld.RemotePort = contentNew.RemotePort
+	}
+	if len(contentNew.CustomDomains) > 0 {
+		contentOld.CustomDomains = contentNew.CustomDomains
+	}
+	if len(contentNew.SubDomain) > 0 {
+		contentOld.SubDomain = contentNew.SubDomain
+	}
+	if len(contentNew.Locations) > 0 {
+		contentOld.Locations = contentNew.Locations
+	}
+	if len(contentNew.HTTPUser) > 0 {
+		contentOld.HTTPUser = contentNew.HTTPUser
+	}
+	if len(contentNew.HTTPPwd) > 0 {
+		contentOld.HTTPPwd = contentNew.HTTPPwd
+	}
+	if len(contentNew.HostHeaderRewrite) > 0 {
+		contentOld.HostHeaderRewrite = contentNew.HostHeaderRewrite
+	}
+	if contentNew.Headers != nil && len(contentNew.Headers) > 0 {
+		contentOld.Headers = contentNew.Headers
+	}
+	if contentNew.ResponseHeaders != nil && len(contentNew.ResponseHeaders) > 0 {
+		contentOld.ResponseHeaders = contentNew.ResponseHeaders
+	}
+	return contentOld
 }
 
 func (m *Manager) CloseProxy(content *CloseProxyContent) error {
