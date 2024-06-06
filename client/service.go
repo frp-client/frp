@@ -245,14 +245,15 @@ func (svr *Service) login() (conn net.Conn, connector Connector, err error) {
 	}
 
 	loginMsg := &msg.Login{
-		Arch:      runtime.GOARCH,
-		Os:        runtime.GOOS,
-		PoolCount: svr.common.Transport.PoolCount,
-		User:      svr.common.User,
-		Version:   version.Full(),
-		Timestamp: time.Now().Unix(),
-		RunID:     svr.runID,
-		Metas:     svr.common.Metadatas,
+		Arch:        runtime.GOARCH,
+		Os:          runtime.GOOS,
+		PoolCount:   svr.common.Transport.PoolCount,
+		User:        svr.common.User,
+		Version:     version.Full(),
+		Timestamp:   time.Now().Unix(),
+		RunID:       svr.runID,
+		Metas:       svr.common.Metadatas,
+		AccessToken: svr.common.AccessToken,
 	}
 	if svr.clientSpec != nil {
 		loginMsg.ClientSpec = *svr.clientSpec

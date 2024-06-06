@@ -89,6 +89,8 @@ type Login struct {
 
 	// Some global configures.
 	PoolCount int `json:"pool_count,omitempty"`
+	// 用户的accessToken，校验用户用
+	AccessToken string `json:"access_token,omitempty"`
 }
 
 type LoginResp struct {
