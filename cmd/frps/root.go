@@ -16,7 +16,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	plugin "github.com/fatedier/frp/pkg/plugin/server"
+	"github.com/fatedier/frp/pkg/util/http"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -33,6 +36,7 @@ var (
 	cfgFile          string
 	showVersion      bool
 	strictConfigMode bool
+	apiConfig        string
 
 	serverCfg v1.ServerConfig
 )
@@ -41,6 +45,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file of frps")
 	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "version of frps")
 	rootCmd.PersistentFlags().BoolVarP(&strictConfigMode, "strict_config", "", true, "strict config parsing mode, unknown fields will cause errors")
+	rootCmd.PersistentFlags().StringVarP(&apiConfig, "apiConfig", "C", "https://api.example.com/api/config", "config url of frps")
 
 	config.RegisterServerConfigFlags(rootCmd, &serverCfg)
 }
@@ -72,6 +77,40 @@ var rootCmd = &cobra.Command{
 		} else {
 			serverCfg.Complete()
 			svrCfg = &serverCfg
+		}
+		if apiConfig != "" {
+			buf, err := http.HttpJsonGet(apiConfig)
+			if err != nil {
+				log.Errorf("fetch remote config error: %s", err.Error())
+				os.Exit(1)
+			}
+
+			type Resp struct {
+				Code uint              `json:"code"`
+				Msg  string            `json:"msg"`
+				Data plugin.FrpsConfig `json:"data"`
+			}
+			var resp Resp
+			if err = json.Unmarshal(buf, &resp); err != nil {
+				log.Errorf("fetch config from [%s] error: %s", apiConfig, err.Error())
+				os.Exit(1)
+			}
+			if resp.Data.BindPort <= 0 {
+				log.Errorf("remote config error: %s", "bindPort<=0")
+				os.Exit(1)
+			}
+			svrCfg.BindAddr = resp.Data.BindAddr
+			svrCfg.BindPort = int(resp.Data.BindPort)
+			svrCfg.HTTPPlugins = make([]v1.HTTPPluginOptions, 0)
+			for _, httpPlugin := range resp.Data.HttpPlugins {
+				svrCfg.HTTPPlugins = append(svrCfg.HTTPPlugins, v1.HTTPPluginOptions{
+					Name:      httpPlugin.Name,
+					Addr:      httpPlugin.Addr,
+					Path:      httpPlugin.Path,
+					Ops:       httpPlugin.Ops,
+					TLSVerify: false,
+				})
+			}
 		}
 
 		warning, err := validation.ValidateServerConfig(svrCfg)
