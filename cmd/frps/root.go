@@ -18,8 +18,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	plugin "github.com/fatedier/frp/pkg/plugin/server"
-	"github.com/fatedier/frp/pkg/util/http"
+	plugin "github.com/frp-client/frp/pkg/plugin/server"
+	"github.com/frp-client/frp/pkg/util/http"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -45,7 +45,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file of frps")
 	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "version of frps")
 	rootCmd.PersistentFlags().BoolVarP(&strictConfigMode, "strict_config", "", true, "strict config parsing mode, unknown fields will cause errors")
-	rootCmd.PersistentFlags().StringVarP(&apiConfig, "apiConfig", "C", "https://api.example.com/api/config", "config url of frps")
+	rootCmd.PersistentFlags().StringVarP(&apiConfig, "apiConfig", "C", "https://api.example.com/api/frps/config", "config url of frps")
 
 	config.RegisterServerConfigFlags(rootCmd, &serverCfg)
 }
@@ -101,15 +101,23 @@ var rootCmd = &cobra.Command{
 			}
 			svrCfg.BindAddr = resp.Data.BindAddr
 			svrCfg.BindPort = int(resp.Data.BindPort)
-			svrCfg.HTTPPlugins = make([]v1.HTTPPluginOptions, 0)
-			for _, httpPlugin := range resp.Data.HttpPlugins {
-				svrCfg.HTTPPlugins = append(svrCfg.HTTPPlugins, v1.HTTPPluginOptions{
-					Name:      httpPlugin.Name,
-					Addr:      httpPlugin.Addr,
-					Path:      httpPlugin.Path,
-					Ops:       httpPlugin.Ops,
-					TLSVerify: false,
-				})
+			if resp.Data.VhostHTTPPort > 0 {
+				svrCfg.VhostHTTPPort = resp.Data.VhostHTTPPort
+			}
+			if resp.Data.VhostHTTPSPort > 0 {
+				svrCfg.VhostHTTPSPort = resp.Data.VhostHTTPSPort
+			}
+			if len(resp.Data.HttpPlugins) > 0 {
+				svrCfg.HTTPPlugins = make([]v1.HTTPPluginOptions, 0)
+				for _, httpPlugin := range resp.Data.HttpPlugins {
+					svrCfg.HTTPPlugins = append(svrCfg.HTTPPlugins, v1.HTTPPluginOptions{
+						Name:      httpPlugin.Name,
+						Addr:      httpPlugin.Addr,
+						Path:      httpPlugin.Path,
+						Ops:       httpPlugin.Ops,
+						TLSVerify: false,
+					})
+				}
 			}
 		}
 

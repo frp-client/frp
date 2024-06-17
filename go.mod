@@ -1,10 +1,11 @@
-module github.com/fatedier/frp
+module github.com/frp-client/frp
 
 go 1.22
 
 require (
 	github.com/armon/go-socks5 v0.0.0-20160902184237-e75332964ef5
 	github.com/coreos/go-oidc/v3 v3.10.0
+	github.com/fatedier/frp v0.58.1
 	github.com/fatedier/golib v0.5.0
 	github.com/google/uuid v1.6.0
 	github.com/gorilla/mux v1.8.1

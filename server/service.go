@@ -187,7 +187,6 @@ func NewService(cfg *v1.ServerConfig) (*Service, error) {
 		log.Infof("tcpmux httpconnect multiplexer listen on %s, passthough: %v", address, cfg.TCPMuxPassthrough)
 	}
 
-	cfg.HTTPPlugins = nil
 	if len(cfg.HTTPPlugins) == 0 {
 		log.Warnf("no plugin has been registered!!!!!!!!")
 	}
