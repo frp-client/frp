@@ -18,7 +18,7 @@ import (
 	"math/rand/v2"
 	"time"
 
-	"github.com/fatedier/frp/pkg/util/util"
+	"github.com/frp-client/frp/pkg/util/util"
 )
 
 type BackoffFunc func(previousDuration time.Duration, previousConditionError bool) time.Duration

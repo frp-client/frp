@@ -29,11 +29,11 @@ import (
 	"k8s.io/apimachinery/pkg/util/sets"
 	"k8s.io/apimachinery/pkg/util/yaml"
 
-	"github.com/fatedier/frp/pkg/config/legacy"
-	v1 "github.com/fatedier/frp/pkg/config/v1"
-	"github.com/fatedier/frp/pkg/config/v1/validation"
-	"github.com/fatedier/frp/pkg/msg"
-	"github.com/fatedier/frp/pkg/util/util"
+	"github.com/frp-client/frp/pkg/config/legacy"
+	v1 "github.com/frp-client/frp/pkg/config/v1"
+	"github.com/frp-client/frp/pkg/config/v1/validation"
+	"github.com/frp-client/frp/pkg/msg"
+	"github.com/frp-client/frp/pkg/util/util"
 )
 
 var glbEnvs map[string]string

@@ -23,9 +23,9 @@ import (
 
 	"github.com/samber/lo"
 
-	"github.com/fatedier/frp/pkg/config/types"
-	"github.com/fatedier/frp/pkg/msg"
-	"github.com/fatedier/frp/pkg/util/util"
+	"github.com/frp-client/frp/pkg/config/types"
+	"github.com/frp-client/frp/pkg/msg"
+	"github.com/frp-client/frp/pkg/util/util"
 )
 
 type ProxyTransport struct {

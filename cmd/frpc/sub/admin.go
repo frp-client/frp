@@ -22,9 +22,9 @@ import (
 	"github.com/rodaine/table"
 	"github.com/spf13/cobra"
 
-	"github.com/fatedier/frp/pkg/config"
-	v1 "github.com/fatedier/frp/pkg/config/v1"
-	clientsdk "github.com/fatedier/frp/pkg/sdk/client"
+	"github.com/frp-client/frp/pkg/config"
+	v1 "github.com/frp-client/frp/pkg/config/v1"
+	clientsdk "github.com/frp-client/frp/pkg/sdk/client"
 )
 
 func init() {

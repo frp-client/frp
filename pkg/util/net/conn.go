@@ -25,7 +25,7 @@ import (
 	"github.com/fatedier/golib/crypto"
 	quic "github.com/quic-go/quic-go"
 
-	"github.com/fatedier/frp/pkg/util/xlog"
+	"github.com/frp-client/frp/pkg/util/xlog"
 )
 
 type ContextGetter interface {

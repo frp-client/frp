@@ -24,12 +24,12 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/fatedier/frp/pkg/config"
-	v1 "github.com/fatedier/frp/pkg/config/v1"
-	"github.com/fatedier/frp/pkg/config/v1/validation"
-	"github.com/fatedier/frp/pkg/util/log"
-	"github.com/fatedier/frp/pkg/util/version"
-	"github.com/fatedier/frp/server"
+	"github.com/frp-client/frp/pkg/config"
+	v1 "github.com/frp-client/frp/pkg/config/v1"
+	"github.com/frp-client/frp/pkg/config/v1/validation"
+	"github.com/frp-client/frp/pkg/util/log"
+	"github.com/frp-client/frp/pkg/util/version"
+	"github.com/frp-client/frp/server"
 )
 
 var (

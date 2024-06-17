@@ -14,8 +14,8 @@ import (
 
 	libnet "github.com/fatedier/golib/net"
 
-	httppkg "github.com/fatedier/frp/pkg/util/http"
-	"github.com/fatedier/frp/test/e2e/pkg/rpc"
+	httppkg "github.com/frp-client/frp/pkg/util/http"
+	"github.com/frp-client/frp/test/e2e/pkg/rpc"
 )
 
 type Request struct {

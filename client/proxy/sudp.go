@@ -27,11 +27,11 @@ import (
 	"github.com/fatedier/golib/errors"
 	libio "github.com/fatedier/golib/io"
 
-	v1 "github.com/fatedier/frp/pkg/config/v1"
-	"github.com/fatedier/frp/pkg/msg"
-	"github.com/fatedier/frp/pkg/proto/udp"
-	"github.com/fatedier/frp/pkg/util/limit"
-	netpkg "github.com/fatedier/frp/pkg/util/net"
+	v1 "github.com/frp-client/frp/pkg/config/v1"
+	"github.com/frp-client/frp/pkg/msg"
+	"github.com/frp-client/frp/pkg/proto/udp"
+	"github.com/frp-client/frp/pkg/util/limit"
+	netpkg "github.com/frp-client/frp/pkg/util/net"
 )
 
 func init() {

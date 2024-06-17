@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"slices"
 
-	v1 "github.com/fatedier/frp/pkg/config/v1"
+	v1 "github.com/frp-client/frp/pkg/config/v1"
 )
 
 func ValidateVisitorConfigurer(c v1.VisitorConfigurer) error {

@@ -24,9 +24,9 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/fatedier/frp/assets"
-	v1 "github.com/fatedier/frp/pkg/config/v1"
-	netpkg "github.com/fatedier/frp/pkg/util/net"
+	"github.com/frp-client/frp/assets"
+	v1 "github.com/frp-client/frp/pkg/config/v1"
+	netpkg "github.com/frp-client/frp/pkg/util/net"
 )
 
 var (

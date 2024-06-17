@@ -20,7 +20,7 @@ import (
 	"reflect"
 	"strconv"
 
-	v1 "github.com/fatedier/frp/pkg/config/v1"
+	v1 "github.com/frp-client/frp/pkg/config/v1"
 )
 
 func init() {
