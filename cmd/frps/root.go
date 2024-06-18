@@ -45,7 +45,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file of frps")
 	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "version of frps")
 	rootCmd.PersistentFlags().BoolVarP(&strictConfigMode, "strict_config", "", true, "strict config parsing mode, unknown fields will cause errors")
-	rootCmd.PersistentFlags().StringVarP(&apiConfig, "apiConfig", "C", "https://api.example.com/api/frps/config", "config url of frps")
+	rootCmd.PersistentFlags().StringVarP(&apiConfig, "apiConfig", "C", "https://api.example.com", "config api server")
 
 	config.RegisterServerConfigFlags(rootCmd, &serverCfg)
 }
