@@ -19,6 +19,7 @@ import (
 	"encoding/json"
 	"fmt"
 	plugin "github.com/frp-client/frp/pkg/plugin/server"
+	"github.com/frp-client/frp/pkg/util/client"
 	"github.com/frp-client/frp/pkg/util/http"
 	"os"
 
@@ -79,7 +80,7 @@ var rootCmd = &cobra.Command{
 			svrCfg = &serverCfg
 		}
 		if apiConfig != "" {
-			buf, err := http.HttpJsonGet(apiConfig)
+			buf, err := http.HttpJsonGet(apiConfig, map[string]string{"X_CLIENT_ID": client.ClientId()})
 			if err != nil {
 				log.Errorf("fetch remote config error: %s", err.Error())
 				os.Exit(1)

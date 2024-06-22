@@ -7,11 +7,16 @@ import (
 	"net/http"
 )
 
-func HttpJsonGet(requestUrl string) (buf []byte, err error) {
+func HttpJsonGet(requestUrl string, headers map[string]string) (buf []byte, err error) {
 	var client = http.Client{}
 	req, err := http.NewRequest("GET", requestUrl, nil)
 	if err != nil {
 		return
+	}
+	if headers != nil {
+		for h, v := range headers {
+			req.Header.Set(h, v)
+		}
 	}
 	//req.Header.Set("Content-Type", "application/json")
 	resp, err := client.Do(req)
