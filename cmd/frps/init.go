@@ -20,6 +20,7 @@ import (
 	"github.com/frp-client/frp/pkg/util/http"
 	"github.com/spf13/cobra"
 	"log"
+	"strings"
 )
 
 func init() {
@@ -38,15 +39,16 @@ var initCmd = &cobra.Command{
 			return nil
 		}
 
-		log.Println("[apiConfig]", apiConfig)
-		if len(apiConfig) == 0 {
-			fmt.Println("frps: 使用--apiConfig参数指定节点上报接口")
+		apiServer = strings.TrimRight(apiServer, "/")
+		log.Println("[apiServer]", apiServer)
+		if len(apiServer) == 0 {
+			fmt.Println("frps: 使用--server参数指定节点上报接口")
 			return nil
 		}
 
-		buf, err := http.HttpJsonPost(apiConfig, []byte(fmt.Sprintf(`{"token":"%s"}`, serverCfg.Auth.Token)))
+		buf, err := http.HttpJsonPost(fmt.Sprintf("%s/api/frps/node", apiServer), []byte(fmt.Sprintf(`{"token":"%s"}`, serverCfg.Auth.Token)))
 		if err != nil {
-			fmt.Println("初始化数据提交失败：", err.Error())
+			fmt.Println("初始化数据提交失败1：", err.Error())
 			return nil
 		}
 		type Resp struct {
@@ -56,11 +58,11 @@ var initCmd = &cobra.Command{
 		}
 		var resp Resp
 		if err = json.Unmarshal(buf, &resp); err != nil {
-			fmt.Println("初始化数据提交失败：", err.Error())
+			fmt.Println("初始化数据提交失败2：", err.Error())
 			return nil
 		}
 		if resp.Code != 200 {
-			fmt.Println("初始化数据提交失败：", resp.Msg)
+			fmt.Println("初始化数据提交失败3：", resp.Msg)
 			return nil
 		}
 

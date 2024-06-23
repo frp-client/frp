@@ -22,6 +22,7 @@ import (
 	"github.com/frp-client/frp/pkg/util/client"
 	"github.com/frp-client/frp/pkg/util/http"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 
@@ -37,7 +38,7 @@ var (
 	cfgFile          string
 	showVersion      bool
 	strictConfigMode bool
-	apiConfig        string
+	apiServer        string
 
 	serverCfg v1.ServerConfig
 )
@@ -46,7 +47,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "config file of frps")
 	rootCmd.PersistentFlags().BoolVarP(&showVersion, "version", "v", false, "version of frps")
 	rootCmd.PersistentFlags().BoolVarP(&strictConfigMode, "strict_config", "", true, "strict config parsing mode, unknown fields will cause errors")
-	rootCmd.PersistentFlags().StringVarP(&apiConfig, "apiConfig", "C", "https://api.example.com", "config api server")
+	rootCmd.PersistentFlags().StringVarP(&apiServer, "server", "s", "https://api.example.com", "config api server")
 
 	config.RegisterServerConfigFlags(rootCmd, &serverCfg)
 }
@@ -79,8 +80,10 @@ var rootCmd = &cobra.Command{
 			serverCfg.Complete()
 			svrCfg = &serverCfg
 		}
-		if apiConfig != "" {
-			buf, err := http.HttpJsonGet(apiConfig, map[string]string{"X_CLIENT_ID": client.ClientId()})
+		if apiServer != "" {
+			apiServer = strings.TrimRight(apiServer, "/")
+			var endpoint = fmt.Sprintf("%s/api/frps/config", apiServer)
+			buf, err := http.HttpJsonGet(endpoint, map[string]string{"X_CLIENT_ID": client.ClientId()})
 			if err != nil {
 				log.Errorf("fetch remote config error: %s", err.Error())
 				os.Exit(1)
@@ -93,7 +96,7 @@ var rootCmd = &cobra.Command{
 			}
 			var resp Resp
 			if err = json.Unmarshal(buf, &resp); err != nil {
-				log.Errorf("fetch config from [%s] error: %s", apiConfig, err.Error())
+				log.Errorf("fetch config from [%s] error: %s", endpoint, err.Error())
 				os.Exit(1)
 			}
 			if resp.Data.BindPort <= 0 {
