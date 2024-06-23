@@ -17,6 +17,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/frp-client/frp/pkg/util/client"
 	"github.com/frp-client/frp/pkg/util/http"
 	"github.com/spf13/cobra"
 	"log"
@@ -46,7 +47,11 @@ var initCmd = &cobra.Command{
 			return nil
 		}
 
-		buf, err := http.HttpJsonPost(fmt.Sprintf("%s/api/frps/node", apiServer), []byte(fmt.Sprintf(`{"token":"%s"}`, serverCfg.Auth.Token)))
+		buf, err := http.HttpJsonPost(
+			fmt.Sprintf("%s/api/frps/node", apiServer),
+			[]byte(fmt.Sprintf(`{"token":"%s"}`, serverCfg.Auth.Token)),
+			map[string]string{"X_CLIENT_ID": client.ClientId()},
+		)
 		if err != nil {
 			fmt.Println("初始化数据提交失败1：", err.Error())
 			return nil
