@@ -5,6 +5,7 @@ type FrpsConfig struct {
 	BindPort       uint         `json:"bind_port"`
 	VhostHTTPPort  int          `json:"vhost_http_port"`
 	VhostHTTPSPort int          `json:"vhost_https_port"`
+	Custom404Page  string       `json:"custom_404_page"`
 	HttpPlugins    []HttpPlugin `json:"http_plugins"`
 }
 

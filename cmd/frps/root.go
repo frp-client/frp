@@ -111,6 +111,9 @@ var rootCmd = &cobra.Command{
 			if resp.Data.VhostHTTPSPort > 0 {
 				svrCfg.VhostHTTPSPort = resp.Data.VhostHTTPSPort
 			}
+			if resp.Data.Custom404Page != "" {
+				svrCfg.Custom404Page = resp.Data.Custom404Page
+			}
 			if len(resp.Data.HttpPlugins) > 0 {
 				svrCfg.HTTPPlugins = make([]v1.HTTPPluginOptions, 0)
 				for _, httpPlugin := range resp.Data.HttpPlugins {
